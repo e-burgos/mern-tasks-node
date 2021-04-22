@@ -1,20 +1,29 @@
-// Requerimos 
+// Modulos Requeridos 
 const express = require('express');
-const connectDB = require('./config/db')
+const connectDB = require('./config/db');
 
-// Crear servidor
+// Rutas Requeridas
+const usersRouter = require('./routes/users')
+
+// Crear Servidor
 const app = express();
 
 // Conectar DB
 connectDB();
 
-// Puerto de la app
+// Habilitar express.json para leer datos enviados desde frontend
+app.use(express.json({ extended: true }));
+
+// Puerto de la App
 const PORT = process.env.PORT || 4000;
 
-// Definir pagina principal 
+// Importar Rutas
+app.use('/api/users', usersRouter);
+
+// Server Home 
 app.get('/', (req, res) => {
-    res.send('Hola mundo')
-})
+    res.send('MernTasks Server')
+});
 
 // Iniciar app
 app.listen(PORT, () => {
