@@ -1,9 +1,13 @@
 const User = require('../models/User');
 const bcryptjs = require('bcryptjs');
+const { validationResult } = require('express-validator');
 
 const userController = {
     create: async (req, res) => {
-
+        const errors = validationResult(req);
+        if(!errors.isEmpty()){
+            return res.status(400).json({errors: errors.array()});
+        };
         try {
             const { email, password } = req.body;
             // Verificar si el usuario ya existe
