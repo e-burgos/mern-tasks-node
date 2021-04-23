@@ -4,47 +4,45 @@ const { validationResult } = require('express-validator');
 const jwt = require('jsonwebtoken');
 
 const userController = {
-    create: async (req, res) => {
+    login: async (req, res) => {
         const errors = validationResult(req);
         if(!errors.isEmpty()){
             return res.status(400).json({errors: errors.array()});
         };
+        const { email, password } = req.body;
+
         try {
-            const { email, password } = req.body;
             // Verificar si el usuario ya existe
             let user = await User.findOne({email});
-
-            if(user){
-                res.status(400).json({ msg: 'El usuario ya existe' });
+            if(!user){
+                return res.status(400).json({ msg: 'El usuario no existe' });
             };
-            // Crear usuario
-            user = new User(req.body); 
 
-            // Hashear el password
-            const salt = await bcryptjs.genSalt(10);
-            user.password = await bcryptjs.hash(password, salt);
-
-            // Guardar en DB
-            await user.save(); 
-
-            // Crear JWT 
+            // Verificamos password
+            const correctPassword = await bcryptjs.compare(password, user.password);
+            if(!correctPassword){
+                return res.status(400).json({ msg: 'La contraseña es incorrecta' });
+            };
+            
+            // Crear y firmar el JWT
             const payload = {
                 user: {
                     id: user.id
                 }
-            }
+            };
 
-            // Firmar token 
+            // Firmar JWT
             jwt.sign(payload, process.env.SECRET, {
-                expiresIn: 3600 // 1 hour
+                expiresIn: 3600
             }, (error, token) => {
                 if(error) throw error;
-                res.json({ token: token });
+                res.status(200).json({ token: token });
             })
+
 
         } catch (error) {
             console.log(error);
-            res.status(400).send('Hubo un error')
+            res.status(400).json({msg: 'Hubo un error'})
         }
     },
 };
