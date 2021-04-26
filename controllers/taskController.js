@@ -34,7 +34,7 @@ const taskController = {
 
         } catch (error) {
             console.log(error);
-            res.status(500).send('Hubo un error en el servidor')
+            res.status(500).json({msg: 'Hubo un error en el servidor'});
         }
     },
 
@@ -45,7 +45,7 @@ const taskController = {
             return res.status(400).json({errors: errors.array()});
         };
         try {
-            const { projectId } = req.body;
+            const { projectId } = req.query;
 
             // Revisar Id del proyecto 
             const project = await Project.findById(projectId);
@@ -68,7 +68,7 @@ const taskController = {
 
         } catch (error) {
             console.log(error);
-            res.status(500).send('Hubo un error en el servidor')
+            res.status(500).json({msg: 'Hubo un error en el servidor'});
         }
     },
 
@@ -112,7 +112,7 @@ const taskController = {
 
         } catch (error) {
             console.log(error);
-            res.status(500).send('Hubo un error en el servidor')
+            res.status(500).json({msg: 'Hubo un error en el servidor'});
         }
     },
 
@@ -122,7 +122,7 @@ const taskController = {
             return res.status(400).json({errors: errors.array()});
         };
         try {
-            const { projectId } = req.body;
+            const { projectId } = req.query;
 
             // Revisar Id del proyecto 
             const project = await Project.findById(projectId);
@@ -153,7 +153,7 @@ const taskController = {
 
         } catch (error) {
             console.log(error);
-            res.status(500).send('Hubo un error en el servidor')
+            res.status(500).json({msg: 'Hubo un error en el servidor'});
         }
     },
 };

@@ -1,6 +1,7 @@
 // Modulos Requeridos 
 const express = require('express');
 const connectDB = require('./config/db');
+const cors = require('cors');
 
 // Rutas Requeridas
 const usersRouter = require('./routes/users');
@@ -13,6 +14,9 @@ const app = express();
 
 // Conectar DB
 connectDB();
+
+// Habilitar Cors
+app.use(cors());
 
 // Habilitar express.json para leer datos enviados desde frontend
 app.use(express.json({ extended: true }));

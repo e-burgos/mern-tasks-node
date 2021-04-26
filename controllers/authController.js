@@ -15,7 +15,7 @@ const userController = {
             // Verificar si el usuario ya existe
             let user = await User.findOne({email});
             if(!user){
-                return res.status(400).json({ msg: 'El usuario no existe' });
+                return res.status(404).json({ msg: 'El usuario no existe' });
             };
 
             // Verificamos password
@@ -37,14 +37,25 @@ const userController = {
             }, (error, token) => {
                 if(error) throw error;
                 res.status(200).json({ token: token });
-            })
-
+            });
 
         } catch (error) {
             console.log(error);
-            res.status(400).json({msg: 'Hubo un error'})
+            res.status(500).json({msg: 'Hubo un error en el servidor'});
         }
     },
+
+    // Obtener usuario
+    authenticatedUser: async (req, res) => {
+        try {
+            // Obtenemos usuario su el password
+            const user = await User.findById(req.user.id).select('-password')
+            res.json({user});
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({msg: 'Hubo un error en el servidor'});
+        }
+    }, 
 };
 
 module.exports = userController;

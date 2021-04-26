@@ -22,7 +22,7 @@ const projectController = {
 
         } catch (error) {
             console.log(error);
-            res.status(500).send('Hubo un error en el servidor')
+            res.status(500).json({msg: 'Hubo un error en el servidor'});
         }
     },
 
@@ -35,7 +35,7 @@ const projectController = {
 
         } catch (error) {
             console.log(error);
-            res.status(500).send('Hubo un error en el servidor')
+            res.status(500).json({msg: 'Hubo un error en el servidor'})
         }
     },
 
@@ -68,7 +68,7 @@ const projectController = {
 
         } catch (error) {
             console.log(error);
-            res.status(500).send('Hubo un error en el servidor')
+            res.status(500).json({msg: 'Hubo un error en el servidor'})
         }
     },
 
@@ -100,7 +100,7 @@ const projectController = {
 
         } catch (error) {
             console.log(error);
-            res.status(500).send('Hubo un error en el servidor')
+            res.status(500).json({msg: 'Hubo un error en el servidor'})
         }
     },
 };

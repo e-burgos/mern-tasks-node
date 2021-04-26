@@ -44,9 +44,9 @@ const userController = {
 
         } catch (error) {
             console.log(error);
-            res.status(400).send('Hubo un error')
+            res.status(500).json({msg: 'Hubo un error en el servidor'});
         }
     },
-};
+}
 
 module.exports = userController;
